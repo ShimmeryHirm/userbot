@@ -50,4 +50,4 @@ services:
     restart: "on-failure"
 
 networks:
-  jet_network:
+  userbot_network:
