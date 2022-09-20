@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  bot:
+    container_name: userbot
+
+    build:
+      context: ./UserBot
+      dockerfile: Dockerfile
+
+    stop_signal: SIGINT
+
+    networks:
+      - userbot_network
+
+    environment:
+      - USERBOT_TOKEN=${USERBOT_TOKEN}
+      - API_ID=${API_ID}
+      - HASH_ID=${HASH_ID}
+      - PSQL_HOST=${PSQL_HOST}
+      - PSQL_PORT=${PSQL_PORT}
+      - PSQL_USER=${PSQL_USER}
+      - PSQL_PASSWORD=${PSQL_PASSWORD}
+      - PSQL_DB=${PSQL_DB}
+
+    depends_on:
+      - database
+
+    restart: "on-failure"
+
+    entrypoint: [ "python3", "-u",  "main.py" ]
+
+  database:
+    image: "postgres:13.3-alpine"
+    container_name: userbot_db
+
+    networks:
+      - userbot_network
+
+    volumes:
+      - ./psql/data:/var/lib/postgresql/data
+      - ./psql/db-init-scripts:/docker-entrypoint-initdb.d
+
+    ports:
+      - "5433:5450"
+
+    environment:
+      - POSTGRES_USER=${PSQL_USER}
+      - POSTGRES_PASSWORD=${PSQL_PASSWORD}
+
+    restart: "on-failure"
+
+networks:
+  jet_network:

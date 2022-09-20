@@ -1,0 +1,5 @@
+telethon
+machine2human
+sqlalchemy
+asyncpg
+environs
