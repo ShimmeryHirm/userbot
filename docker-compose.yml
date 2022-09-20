@@ -41,7 +41,7 @@ services:
       - ./psql/db-init-scripts:/docker-entrypoint-initdb.d
 
     ports:
-      - "5433:5450"
+            - "5401:5432"
 
     environment:
       - POSTGRES_USER=${PSQL_USER}

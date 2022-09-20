@@ -3,3 +3,4 @@ machine2human
 sqlalchemy
 asyncpg
 environs
+aiohttp
